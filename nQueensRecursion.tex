@@ -1,0 +1,111 @@
+\documentclass{beamer}
+
+\usetheme{default}
+
+\title{Recursion in Backtracking for the N-Queens Problem}
+\author{Umar Tariq}
+\date{December 2024}
+
+\usepackage{listings}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Introduction}
+\begin{itemize}
+    \item The N-Queens problem involves placing $N$ queens on an $N \times N$ chessboard.
+    \item No two queens can share the same row, column, or diagonal.
+    \item Backtracking is a common algorithmic approach to solve this constraint satisfaction problem.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Backtracking Overview}
+\begin{itemize}
+    \item Backtracking uses recursion to explore all possible queen placements.
+    \item If a conflict is detected, the algorithm backtracks to try a new placement.
+    \item This process continues until all queens are placed or no valid configuration exists.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{GitHub Repository}
+\textbf{This is the code I created to explore solutions:}
+\begin{center}
+\href{https://github.com/UmarT12/nQueensSolver/}{\texttt{https://github.com/UmarT12/nQueensSolver/}}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Recursive Function Structure}
+\begin{lstlisting}
+def solve_backtracking(board, col, n):
+    if col >= n:
+        return True
+    for i in range(n):
+        if is_safe(board, i, col, n):
+            board[col] = i
+            if solve_backtracking(board, col + 1, n):
+                return True
+            board[col] = -1
+    return False
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{How Recursion Works}
+\begin{itemize}
+    \item Each recursive call explores a new column.
+    \item A valid queen placement triggers a deeper recursive search.
+    \item If a conflict is found, the function backtracks by undoing the last placement.
+    \item The base case is reached when all queens are placed successfully.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Recurrence Relation}
+\textbf{Solve the recurrence relation:}
+\[
+T(n) = T(n-1) + n, \quad T(1) = 1
+\]
+\textbf{Reasoning:}
+\begin{itemize}
+    \item $T(n)$ counts steps in a recursive process where placing queens in $n$ columns depends on solving the $(n-1)$-column problem plus $n$ checks for safe placements.
+    \item creating the recurrence function:
+    \[
+    T(n) = n + (n-1) + (n-2) + \ldots + 1 = \frac{n(n+1)}{2}
+    \]
+    \item Use this relation to calculate $T(4)$:
+    \[
+    T(4) = \frac{4 \times 5}{2} = 10
+    \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Why Backtracking Works}
+\begin{itemize}
+    \item Backtracking explores all permutations of queens efficiently.
+    \item It prunes invalid branches early, saving computation time.
+    \item This ensures that only valid configurations are considered.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Combinatorial Complexity}
+\textbf{Evaluate the complexity of the N-Queens problem:}
+\[
+C(n) = n! \quad \text{for placing queens in distinct columns.}
+\]
+\textbf{How Constraints Reduce Complexity:}
+\begin{itemize}
+    \item Since each queen must occupy a unique row, this constraint eliminates duplicate row placements.
+    \item Each queen must occupy a unique column, reducing the total number of possible combinations to $n!$.
+    \item Diagonal conflicts are checked using relative row-column differences, further pruning invalid placements.
+    \item Finally, these constraints reduce the need to explore the full $n!$ search space by skipping invalid branches early, effectively reducing computational time.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+\begin{itemize}
+    \item Backtracking is a powerful combinatorial search algorithm.
+    \item Its recursive structure ensures a systematic exploration of possibilities.
+    \item Understanding recursion helps us to apply this technique to broader constraint satisfaction problems.
+\end{itemize}
+\end{frame}
+
+\end{document}
